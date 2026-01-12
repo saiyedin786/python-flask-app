@@ -1,6 +1,6 @@
 # app/main.py
 
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -10,7 +10,10 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY", "default_key")
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    if request.method == "POST":
+        username = request.form.get("username")
+        return render_template("result.html", username=username)
+    return render_template("index.html")
 
 if __name__ == '__main__':
     debug_mode = os.getenv("FLASK_DEBUG", "False") == "True"
